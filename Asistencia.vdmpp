@@ -1,0 +1,31 @@
+class Asistencia
+
+instance variables
+    private registros : seq of bool;
+    private alerta : bool;
+
+inv len registros = 5
+
+operations
+
+    public Asistencia: seq of bool ==> Asistencia
+    Asistencia(r) == (
+        registros := r;
+        alerta := false
+    );
+
+    public HayInasistencia: () ==> bool
+    HayInasistencia() ==
+        return exists r in set elems registros & r = false;
+
+    public AsistenciaPerfecta: () ==> bool
+    AsistenciaPerfecta() ==
+        return forall r in set elems registros & r = true;
+
+    public ActualizarAlerta: () ==> bool
+    ActualizarAlerta() == (
+        alerta := exists r in set elems registros & r = false;
+        return alerta
+    );
+
+end Asistencia
