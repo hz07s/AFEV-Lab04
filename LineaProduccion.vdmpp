@@ -1,0 +1,40 @@
+class LineaProduccion
+
+instance variables
+    private pesos    : seq of nat;
+    private detenida : bool;
+
+inv len pesos = 6
+
+operations
+
+    public LineaProduccion: seq of nat ==> LineaProduccion
+    LineaProduccion(p) ==
+        (pesos    := p;
+         detenida := false);
+
+    public TodosEnRango: () ==> bool
+    TodosEnRango() ==
+        return forall p in set elems pesos & p >= 148 and p <= 152;
+
+    public HayDefectuoso: () ==> bool
+    HayDefectuoso() ==
+        return exists p in set elems pesos & (p < 148 or p > 152);
+
+    public PesoCreciente: () ==> bool
+    PesoCreciente() ==
+        return forall i in set {1,...,5} & pesos(i) < pesos(i+1);
+
+    public DosFueraDeRango: () ==> bool
+    DosFueraDeRango() ==
+        return exists i, j in set {1,...,6} &
+            i <> j and
+            (pesos(i) < 148 or pesos(i) > 152) and
+            (pesos(j) < 148 or pesos(j) > 152);
+
+    public DetenerLinea: () ==> bool
+    DetenerLinea() ==
+        (detenida := HayDefectuoso() and DosFueraDeRango();
+         return detenida);
+
+end LineaProduccion
